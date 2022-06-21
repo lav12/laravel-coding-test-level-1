@@ -1,0 +1,184 @@
+<nb-card>
+  <nb-card-header>Event Index</nb-card-header>
+
+  <nb-card-body>
+
+    <div class="row row-margin-bottom">
+      <div class="col-md-5">
+        <input #search id="search" type="text" class="form-control" placeholder="Search" aria-label="Search"
+          aria-describedby="basic-addon1" />
+      </div>
+    </div>
+
+
+
+    <ngx-datatable #myTable
+    [loadingIndicator]="loadingIndicator"
+    class="material" [columns]="columns" [rows]="rows" [columnMode]="'force'"
+      [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [virtualization]="false"
+      [externalPaging]="true" [count]="page.count" [offset]="page.offset" [limit]="page.limit"
+      (page)="setEventPager($event)">
+
+      <ngx-datatable-column name="No." [maxWidth]="90">
+        <ng-template let-rowIndex="rowIndex" let-value="value" let-row="row" ngx-datatable-cell-template>
+          {{
+          rowIndex +
+          1 +
+          page.pageSize *
+          page.offset
+          }}
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column *ngFor="let col of columns" [name]="col.name" [prop]="col.prop" [sortable]="true">
+      </ngx-datatable-column>
+
+
+      <ngx-datatable-column name="Actions" prop="id" [maxWidth]="100" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+          <button type="button" nbButton outline status="primary" (click)='show(value)'>Show</button>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="" prop="id" [maxWidth]="100" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+          <button type="button" nbButton outline status="warning" (click)='edit(value)'>Edit</button>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="" prop="id" [maxWidth]="120" [sortable]="false">
+        <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+          <button type="button" nbButton outline status="danger" (click)='deleteEvent(value)'>Delete</button>
+        </ng-template>
+
+        <ng-template>
+          <div>
+            Are you sure you want to delete this {{ entity }}?
+            <button (click)="close()">No</button>
+            <button (click)="confirmAction()">Yes</button>
+          </div>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </nb-card-body>
+</nb-card>
+
+
+<nb-card *ngIf="expand_show_card">
+  <nb-card-header>Show - Event</nb-card-header>
+
+  <nb-card-body>
+
+    <div class="row">
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <label>Name</label>
+          <input class="form-control" readonly value="{{ show_data_name }}">
+        </div>
+
+        <div class="form-group">
+          <label>Slug</label>
+          <input class="form-control" readonly value="{{ show_data_slug }}">
+        </div>
+
+      </div>
+
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <label>Start At</label>
+          <input class="form-control" readonly value="{{ show_data_startAt }}">
+        </div>
+
+        <div class="form-group">
+          <label>End At</label>
+          <input class="form-control" readonly value="{{ show_data_endAt }}">
+        </div>
+
+      </div>
+    </div>
+
+  </nb-card-body>
+</nb-card>
+
+
+
+
+<nb-card *ngIf="card_edit_display">
+  <nb-card-header>Edit - Event</nb-card-header>
+
+  <nb-card-body>
+
+
+    <form (ngSubmit)="onFormSubmit()" [formGroup]="edit_event_form">
+      <div class="row">
+
+        <div class="col-md-6">
+
+          <div class="form-group">
+            <label>Name</label>
+            <input class="form-control" name="name" formControlName="name" value="">
+          </div>
+
+          <div class="form-group">
+            <label>Slug</label>
+            <input class="form-control" name="slug" formControlName="slug" value="">
+          </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+          <div class="form-group">
+            <label>Start At</label>
+            <input class="form-control" name="start_at" formControlName="start_at" value="">
+          </div>
+
+          <div class="form-group">
+            <label>End At</label>
+            <input class="form-control" name="end_at" formControlName="end_at" value="">
+          </div>
+
+        </div>
+
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+
+        </div>
+
+        <div class="col-md-6">
+
+          <div class="row">
+            <div class="col-md-5">
+              <button nbButton outline status="danger" type="reset" class="form-control" (click)="onRefresh()">
+                Reset
+              </button>
+            </div>
+
+            <div class="col-md-5">
+              
+              <button nbButton outline [disabled]="!edit_event_form.valid" [nbSpinner]="btn_loading_submit" status="success"
+                type="submit" class="form-control">
+                Update
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+
+  </nb-card-body>
+</nb-card>
+
+
+
+
+
+

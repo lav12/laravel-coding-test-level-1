@@ -1,0 +1,70 @@
+
+<nb-card >
+    <nb-card-header>Create - Event</nb-card-header>
+  
+    <nb-card-body>
+  
+  
+      <form (ngSubmit)="onFormSubmit()" [formGroup]="create_event_form">
+        <div class="row">
+  
+          <div class="col-md-6">
+  
+            <div class="form-group">
+              <label>Name</label>
+              <input class="form-control" name="name" formControlName="name" value="">
+            </div>
+  
+            <div class="form-group">
+              <label>Slug</label>
+              <input class="form-control" name="slug" formControlName="slug" value="">
+            </div>
+  
+          </div>
+  
+          <div class="col-md-6">
+  
+            <div class="form-group">
+              <label>Start At</label>
+              <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="start_at" formControlName="start_at" value="">
+            </div>
+  
+            <div class="form-group">
+              <label>End At</label>
+              <input type="date" class="form-control" placeholder="yyyy-mm-dd" name="end_at" formControlName="end_at" value="">
+            </div>
+  
+          </div>
+  
+  
+        </div>
+  
+        <div class="row">
+          <div class="col-md-6">
+  
+          </div>
+  
+          <div class="col-md-6">
+  
+            <div class="row">
+              <div class="col-md-5">
+                <button nbButton outline status="danger" type="reset" class="form-control" (click)="onRefresh()">
+                  Reset
+                </button>
+              </div>
+  
+              <div class="col-md-5">
+                
+                <button nbButton outline [disabled]="!create_event_form.valid" [nbSpinner]="btn_loading_submit" status="success"
+                  type="submit" class="form-control">
+                  Submit
+                </button>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </form>
+  
+    </nb-card-body>
+  </nb-card>
