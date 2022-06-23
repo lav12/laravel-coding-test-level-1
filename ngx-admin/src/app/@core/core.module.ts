@@ -108,7 +108,7 @@ export const NB_CORE_PROVIDERS = [
     strategies: [
       NbPasswordAuthStrategy.setup({
         name: 'email',
-        baseEndpoint: 'api/v1/',
+        baseEndpoint: '/api/v1/',
         login: {
           endpoint: 'login',
           redirect: {
